@@ -1,0 +1,154 @@
+// Niranjanaa Kannan
+// TA: Ambika Shastry
+// CSE 122 Section AR 
+// 05.30.2023
+// Creative Assignment 3 - TodoListMain.java
+
+// This program creates allows users to create a TODO list Manager, wheere they can 
+// add items, mark items as complete, load and save the TODOs to and from a file,
+// and remove items.
+
+import java.util.*;
+import java.io.*; 
+
+public class TodoListMain {
+    public static final boolean EXTENSION_FLAG = false;
+
+    public static void main(String[] args) throws FileNotFoundException{
+        Scanner console = new Scanner(System.in); 
+        TodoList todoList = new TodoList(); 
+        
+        System.out.println("Welcome to your TODO List Manager!");
+        String userInput = ""; 
+
+
+        while(!userInput.equalsIgnoreCase("q")) {
+            System.out.println("What would you like to do?"); 
+    
+        if (EXTENSION_FLAG) {
+            System.out.println("(A)dd TODO, (M)ark TODO as done, (L)oad TODOs, (S)ave TODOs,"
+                + " (R)emove, (Q)uit? "); 
+            userInput = console.nextLine(); 
+        } else {
+            System.out.print("(A)dd TODO, (M)ark TODO as done, (L)oad TODOs, (S)ave TODOs,"
+                + " (Q)uit? "); 
+            userInput = console.nextLine(); 
+        }
+        if (userInput.equalsIgnoreCase("a")) {
+            addItem(console, todoList); 
+            todoList.printTodos(); 
+        } else if (userInput.equalsIgnoreCase("m")) {
+            markItemAsDone(console, todoList);
+            todoList.printTodos(); 
+        } else if (userInput.equalsIgnoreCase("l")) {
+            loadItems(console, todoList);
+            todoList.printTodos(); 
+        } else if (userInput.equalsIgnoreCase("s")) {
+            saveItems(console, todoList); 
+            todoList.printTodos();
+        } else if (userInput.equalsIgnoreCase("r")) {
+            removeItemName(console, todoList); 
+            todoList.printTodos(); 
+        } else if (!userInput.equalsIgnoreCase("q")) {
+            System.out.println("Unknown input: " + userInput);
+            todoList.printTodos(); 
+        }
+    }
+}
+
+
+    // This method allows the user to add TODOs to their list and assign a 
+    // number to order and identify the item. 
+        // Parameters: 
+            // - Scanner console: takes in user input
+            // - TodoList todoList: TodoList instance manages todos
+    public static void addItem(Scanner console, TodoList todoList) {
+        System.out.print("What would you like to add? ");
+        String items = console.nextLine();
+
+        if (todoList.size() == 0) {
+            todoList.add(items);
+        } else {
+            System.out.print("Where in the list should it be (1-" + (todoList.size() + 1) 
+                               + ")? (Enter" + " for end): ");
+            String userInput = console.nextLine();
+            int index;
+            if (userInput.length() == 0){
+                // index = listSize;
+                todoList.add(items);
+            } else {
+                index = Integer.parseInt(userInput) - 1;
+                todoList.add(index, items);
+            }
+        }
+    }
+
+    // This method allows the user to mark a TODO as completed and remove
+    // it from the TODO list. It will prompt the user to indicate which item
+    // to remove by using the item's number. 
+        // Parameters: 
+            // - Scanner console: takes in user input
+            // - TodoList todoList: TodoList instance manages todos
+    public static void markItemAsDone(Scanner console, TodoList todoList) {
+        if (todoList.size() == 0) {
+            System.out.println("All done! Nothing left to mark as done!"); 
+        } else {
+            System.out.print("Which item did you complete (1-" + todoList.size() + ")? "); 
+            int index = Integer.parseInt(console.nextLine()); 
+            todoList.remove(index - 1); 
+        }
+    }
+
+    // This method prompts the user for a file name containing the list of 
+    // TODO items. 
+        // Parameters: 
+            // - Scanner console: takes in user input
+            // - TodoList todoList: TodoList instance manages todos
+    public static void loadItems(Scanner console, TodoList todoList) throws FileNotFoundException {
+        System.out.print("File name? "); 
+        String file = console.nextLine(); 
+        Scanner fileScan = new Scanner(new File(file)); 
+        List<String> updateTodos = new ArrayList<>(); 
+        while(fileScan.hasNextLine()) {
+            String line = fileScan.nextLine();
+            updateTodos.add(line); 
+        }
+
+        todoList.clear();
+        for (int i = 0; i < updateTodos.size(); i++) {
+            todoList.add(updateTodos.get(i));
+        }
+    }
+
+    // This method prompts the user for a file name and prints each TODO
+    // list item to the file in order.
+        // Parameters: 
+            // - Scanner console: takes in user input
+            // - TodoList todoList: TodoList instance manages todos
+    public static void saveItems(Scanner console, TodoList todoList) 
+                                throws FileNotFoundException {
+        System.out.print("File name? "); 
+        String fileExport = console.nextLine();
+        PrintStream output = new PrintStream(new File(fileExport)); 
+        for (int i = 0; i < todoList.size(); i++) {
+            output.println(todoList.get(i));
+        }
+    }
+
+    // This method allows the user to remove items from the list by using
+    // the name of the item. 
+        // Parameters: 
+            // - Scanner console: takes in user input
+            // - TodoList todoList: TodoList instance manages todos
+    public static void removeItemName(Scanner console, TodoList todoList) 
+                                     throws FileNotFoundException { 
+        System.out.print("Enter the name of the item you want to remove: ");
+        String itemName = console.nextLine(); 
+        todoList.removeItemName(itemName); 
+    }
+}
+
+
+
+
+
