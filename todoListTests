@@ -1,0 +1,140 @@
+// Niranjanaa Kannan
+// TA: Ambika Shastry
+// CSE 122 Section AR 
+// 05.30.2023
+// Creative Assignment 3 - TodoListTests.java
+
+// This contains the tests for each of the object methods for the TODO list
+
+import java.util.*;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TodoListTests {
+    private TodoList todoList; 
+
+    @BeforeEach
+    public void setUpTest() {
+        todoList = new TodoList(); 
+    }
+    @Test
+    public void testIsEmpty() {
+        assertTrue(todoList.isEmpty()); 
+
+        todoList.add("Item 1"); 
+
+        assertFalse(todoList.isEmpty()); 
+    }
+
+    @Test
+    public void testSize() {
+        assertEquals(0, todoList.size()); 
+
+        todoList.add("Item 1"); 
+        todoList.add("Item 2"); 
+        todoList.add("Item 3"); 
+
+        assertEquals(3, todoList.size()); 
+    }
+
+    @Test 
+    public void testClear() {
+        todoList.add("Item 1"); 
+        todoList.add("Item 2"); 
+
+        assertFalse(todoList.isEmpty()); 
+
+        todoList.clear(); 
+
+        assertTrue(todoList.isEmpty()); 
+        assertEquals(0, todoList.size()); 
+    }
+
+    @Test
+    public void testGet() {
+        todoList.add("Item 1"); 
+        todoList.add("Item 2"); 
+
+        assertEquals("Item 1", todoList.get(0)); 
+        assertEquals("Item 2", todoList.get(1)); 
+
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            todoList.get(2); 
+        }); 
+    }
+
+    @Test
+    public void testAdd() {
+        todoList.add("Item 1"); 
+
+        assertFalse(todoList.isEmpty()); 
+        assertEquals(1, todoList.size()); 
+        assertEquals("Item 1", todoList.get(0));
+    }
+
+    @Test
+    public void testAddAtIndex() {
+        todoList.add("Item 1"); 
+        todoList.add("Item 3"); 
+
+        todoList.add(1, "Item 2");
+
+        assertEquals(3, todoList.size()); 
+        assertEquals("Item 1", todoList.get(0)); 
+        assertEquals("Item 2", todoList.get(1));
+        assertEquals("Item 3", todoList.get(2)); 
+    }
+
+    @Test
+    public void testRemove() {
+        todoList.add("Item 1"); 
+        todoList.add("Item 2"); 
+        todoList.add("Item 3"); 
+
+        todoList.remove(1); 
+
+        assertEquals(2, todoList.size()); 
+        assertEquals("Item 1", todoList.get(0));
+        assertEquals("Item 3", todoList.get(1));
+
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            todoList.remove(2);
+        });
+    }
+
+    @Test 
+    public void testPrintTodos() {
+        todoList.add("Item 1"); 
+        todoList.add("Item 2"); 
+
+        todoList.printTodos(); 
+    }
+
+    @Test
+    public void testMarkItemAsDone() {
+        todoList.add("Item 1"); 
+        todoList.add("Item 2"); 
+        todoList.add("Item 3"); 
+
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            todoList.markItemAsDone(4); 
+        });
+
+        todoList.markItemAsDone(1);
+
+        assertEquals(2, todoList.size()); 
+        assertEquals("Item 1", todoList.get(0));
+        assertEquals("Item 3", todoList.get(1));
+    }
+
+    @Test
+    public void testRemoveItemName() {
+        todoList.add("Item 1"); 
+        todoList.add("Item 2"); 
+
+        todoList.removeItemName("Item 1"); 
+
+        assertEquals(1, todoList.size()); 
+        assertEquals("Item 2", todoList.get(0));
+    }
+}
