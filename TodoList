@@ -1,0 +1,110 @@
+// Niranjanaa Kannan
+// TA: Ambika Shastry
+// CSE 122 Section AR 
+// 05.30.2023
+// Creative Assignment 3 - TodoList.java
+
+// This class represents a basic TODO list that allows the user to manage and 
+// organize tasks. It provides features such as adding, removing, marking items
+// as done, and printing the todo list. 
+
+import java.util.*;
+import java.io.*; 
+
+public class TodoList {
+    private List<String> todos; 
+
+    // Constructs an empty TodoList
+    public TodoList() {
+        todos = new ArrayList<>(); 
+    }
+    
+    // Checks if TodoList is empty
+        // Returns: true if the TodoList is empty, otherwise false
+    public boolean isEmpty() {
+        return todos.isEmpty(); 
+    }
+
+    // Returns the number of todos in the TodoList
+        // Returns: the number of todos in the list
+    public int size() {
+        return todos.size(); 
+    }
+
+    // Clears all todos from the TodoList
+    public void clear() {
+        todos.clear(); 
+    }
+
+    // Gets the todo at a specific index in the TodoList
+        // Parameters: 
+            // - int index: index of the todo
+        // Returns: the todo at the specific index
+    public String get(int index) {
+        return todos.get(index);
+    }
+
+    // Adds a new todo to the TodoList
+        // Parameters: 
+            // - String item: item to be added 
+    public void add(String item) {
+        todos.add(item); 
+    }
+    
+    // Adds a new todo at a specific index in the TodoList
+        // Parameters: 
+            // - int index: index of the todo
+            // - String item: item to be added 
+    public void add(int index, String item) {
+        todos.add(index, item);
+    }
+
+    // Removes the todo at a specific index in the TodoList
+    // Parameters: 
+        // - int index: index of the todo
+        // - String item: item to be added 
+    public void remove(int index) {
+        todos.remove(index);
+    }
+
+    // Prints the todos in the TodoList. If the TodoList is empty, a message is printed 
+    // to indicate that there are no todos present
+    public void printTodos() {
+        System.out.println("Today's TODOs:");
+        if (todos.isEmpty()) {
+            System.out.println("  You have nothing to do yet today! Relax!"); 
+        } else {
+            for (int i = 0; i < todos.size(); i++) {
+                System.out.println("  " + (i + 1) + ": " + todos.get(i));
+            }
+        }
+    }
+
+    // Adds a new todo to the TodoList
+        // Parameters: 
+            // - String item: item to be added 
+    public void addItem(String item) {
+        todos.add(item); 
+    }
+
+    // Marks the todo at the specific index as done and removes it from the TodoList
+        // Parameters: 
+            // - int index: index of the todo
+    public void markItemAsDone(int index) {
+        todos.remove(index); 
+    }
+
+    // Removes the todo with the item name from the TodoList. Prints a message to show 
+    // whether item was removed or not found. 
+        // Parameters: 
+            // - String itemName: the name of the todo to remove
+    public void removeItemName(String itemName) {
+        boolean itemRemoved = todos.remove(itemName);
+
+        if (itemRemoved) {
+            System.out.println("Item removed: " + itemName);
+        } else {
+            System.out.println("Item not found: " + itemName); 
+        } 
+    }
+}
